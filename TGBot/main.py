@@ -1,7 +1,9 @@
 import telebot
 from telebot import types
 
-bot = telebot.TeleBot('token')
+from config import config
+
+bot = telebot.TeleBot(config["TELEBOT_API_KEY"])
 
 @bot.message_handler(commands=['start'])
 def main(message):
