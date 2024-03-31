@@ -1,0 +1,4 @@
+TGBot/.env
+TGBot/.idea/
+.idea/
+*/__pycache__
