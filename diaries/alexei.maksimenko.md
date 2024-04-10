@@ -2,5 +2,5 @@
 
 Спринт 2: • Заполнен дневник разработчика • Организован командный созвон по проекту и задачам
 
-Спринт 3: • Скопирован репизиторий по инструкции https://github.com/teleboto/prodavan/wiki/%D0%9F%D1%80%D0%BE%D1%86%D0%B5%D1%81%D1%81-%D0%B2-git
+Спринт 3: • Скопирован репизиторий по инструкции https://github.com/teleboto/prodavan/wiki/%D0%9F%D1%80%D0%BE%D1%86%D0%B5%D1%81%D1%81-%D0%B2-git, так же инструкция https://www.examclouds.com/ru/java/java-core-russian/clone-from-github
 
