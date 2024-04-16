@@ -1,15 +1,21 @@
 import telebot
 from telebot import types
+import json
 
 from config import config
+from messaging.action import Action
+from messaging import router
+
+print("Бот запускается")
 
 bot = telebot.TeleBot(config["TELEBOT_API_KEY"])
+router.set_bot(bot)
 
 @bot.message_handler(commands=['start'])
-def main(message):
+def main(message: types.Message):
     markup = types.InlineKeyboardMarkup()
     btn1 = types.InlineKeyboardButton('Акции и специальные предложения', callback_data='special')
-    btn2 = types.InlineKeyboardButton('Каталог', callback_data='catg')
+    btn2 = types.InlineKeyboardButton('Каталог', callback_data=Action('catg', '').to_json())
     btn3 = types.InlineKeyboardButton('Корзина', callback_data='baskt')
     btn4 = types.InlineKeyboardButton('Статус заказа', callback_data='status')
     btn5 = types.InlineKeyboardButton('Помощь', callback_data='help')
@@ -32,16 +38,28 @@ def info(message):
         bot.reply_to(message, f'ID: {message.from_user.id}')
 
 @bot.callback_query_handler(func=lambda callback: True)
-def callback_message(callback):
-    if callback.data == 'catg':
-        bot.send_message(callback.message.chat.id, '*открывается каталог*')
-    elif callback.data == 'baskt':
-        bot.send_message(callback.message.chat.id, '*открывается корзина*')
-    elif callback.data == 'status':
-        bot.send_message(callback.message.chat.id, '*открывается статус заказа*')
-    elif callback.data == 'help':
-        bot.send_message(callback.message.chat.id, '*открывается помощь*')
-    elif callback.data == 'special':
-        bot.send_message(callback.message.chat.id, '*открываются спецпредложения*')
+def callback_message(callback: types.CallbackQuery):
+
+    data = None
+    try:
+        data = json.loads(callback.data)
+    except:
+        pass
+
+    if data != None:
+        router.handle_message(callback, data)
+    else:
+        if callback.data == 'baskt':
+            bot.send_message(callback.message.chat.id, '*открывается корзина*')
+        elif callback.data == 'status':
+            bot.send_message(callback.message.chat.id, '*открывается статус заказа*')
+        elif callback.data == 'help':
+            bot.send_message(callback.message.chat.id, '*открывается помощь*')
+        elif callback.data == 'special':
+            bot.send_message(callback.message.chat.id, '*открываются спецпредложения*')
+
+print("Бот работает")
 
 bot.polling(none_stop=True)
+
+print("\nБот завершает работу")
