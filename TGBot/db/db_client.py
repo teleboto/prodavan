@@ -1,5 +1,6 @@
 
 import psycopg2
+from psycopg2.extras import DictCursor
 
 class DBClient:
 
@@ -35,7 +36,7 @@ class DBClient:
 
   def select(self, query):
     self.connect()
-    with self.conn.cursor() as cur:
+    with self.conn.cursor(cursor_factory=DictCursor) as cur:
       cur.execute(query)
       data = cur.fetchall()
     cur.close()
