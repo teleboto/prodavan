@@ -2,6 +2,7 @@ from config import config
 
 from .db_client import DBClient
 from .repositories.category_repository import CategoryRepository
+from .repositories.product_repository import ProductRepository
 
 db_client = DBClient(
   config["DB_HOST"],
@@ -12,3 +13,4 @@ db_client = DBClient(
 )
 
 categoryRepository = CategoryRepository(db_client)
+productRepository = ProductRepository(db_client)

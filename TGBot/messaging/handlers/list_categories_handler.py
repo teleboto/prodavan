@@ -3,7 +3,7 @@ from telebot import types
 from db import categoryRepository
 from messaging.action import Action
 
-def list_categories_handler(bot: telebot.TeleBot, callback: types.CallbackQuery):
+def list_categories_handler(bot: telebot.TeleBot, callback: types.CallbackQuery, action):
     data = categoryRepository.fetchAll()
     if len(data) > 0:
         markup = types.InlineKeyboardMarkup()
