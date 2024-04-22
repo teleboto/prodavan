@@ -29,7 +29,7 @@ class DBClient:
           user = self.USER,
           password = self.PASS
         )
-        print('Connected to databse')
+        print('Connected to database')
       except Error as e:
         print('Error connecting to database')
         print(e)

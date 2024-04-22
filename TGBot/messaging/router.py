@@ -16,4 +16,4 @@ class Router:
   def handle_message(self, callback: types.CallbackQuery, data: dict):
     action: Action = Action.from_dict(data)
     if action.type in self.routes and self.bot != None:
-      self.routes[action.type](self.bot, callback)
+      self.routes[action.type](self.bot, callback, action)
