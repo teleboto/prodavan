@@ -1,0 +1,46 @@
+import psycopg2
+from psycopg2.extensions import ISOLATION_LEVEL_AUTOCOMMIT
+import csv
+
+# Параметры подключения к базе данных
+dbname = 'your_database_name'
+user = 'your_username'
+password = 'your_password'
+host = 'localhost'
+port = '5432'
+
+# Путь к CSV файлу
+file_path = 'path_to_your_csv_file/Products.csv'
+
+# Создание подключения к базе данных
+connection = psycopg2.connect(dbname=dbname, user=user, password=password, host=host, port=port)
+connection.set_isolation_level(ISOLATION_LEVEL_AUTOCOMMIT)
+
+# Создание курсора для выполнения операций с базой данных
+cursor = connection.cursor()
+
+# Создание таблицы products, если она не существует
+cursor.execute("""
+    CREATE TABLE IF NOT EXISTS products (
+        id SERIAL PRIMARY KEY,
+        name VARCHAR(255) NOT NULL,
+        category_id INTEGER NOT NULL,
+        description TEXT NOT NULL,
+        price NUMERIC(10, 2) NOT NULL
+    );
+""")
+
+# Открытие файла и загрузка данных
+with open(file_path, mode='r', encoding='utf-8') as file:
+    reader = csv.DictReader(file)
+    for row in reader:
+        cursor.execute(
+            "INSERT INTO products (id, name, category_id, description, price) VALUES (%s, %s, %s, %s, %s)",
+            (row['id'], row['name'], row['category_id'], row['description'], row['price'])
+        )
+
+# Закрытие подключения
+cursor.close()
+connection.close()
+
+print('Данные успешно загружены в базу данных.')
