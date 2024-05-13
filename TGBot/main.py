@@ -40,6 +40,8 @@ def info(message):
 @bot.callback_query_handler(func=lambda callback: True)
 def callback_message(callback: types.CallbackQuery):
 
+    print(callback.from_user.id)
+
     data = None
     try:
         data = json.loads(callback.data)
