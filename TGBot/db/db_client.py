@@ -42,3 +42,12 @@ class DBClient:
     cur.close()
     return data
 
+  def update_rows(self, query):
+          """Run a SQL query to update rows in table."""
+          self.connect()
+          with self.conn.cursor() as cur:
+              cur.execute(query)
+              self.conn.commit()
+              cur.close()
+              return f"{cur.rowcount} rows affected."
+
