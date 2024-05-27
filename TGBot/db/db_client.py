@@ -51,3 +51,12 @@ class DBClient:
               cur.close()
               return f"{cur.rowcount} rows affected."
 
+  def insert_rows(self, query):
+          """Run a SQL query to insert rows in table."""
+          self.connect()
+          with self.conn.cursor() as cur:
+              cur.execute(query)
+              new_id = cur.fetchone()[0]
+              self.conn.commit()
+              cur.close()
+              return new_id
