@@ -30,6 +30,17 @@ CREATE TABLE IF NOT EXISTS public.orders
     CONSTRAINT orders_pkey PRIMARY KEY (order_id)
 );
 
+CREATE TABLE IF NOT EXISTS public.orderitems
+(
+    item_id serial NOT NULL,
+    order_id integer,
+    product_id integer,
+    price numeric(10, 2),
+    quantity integer,
+    total_amount numeric(10, 2),
+    CONSTRAINT orderitems_pkey PRIMARY KEY (item_id)
+);
+
 CREATE TABLE IF NOT EXISTS public.products
 (
     product_id bigserial NOT NULL,
@@ -73,6 +84,18 @@ ALTER TABLE IF EXISTS public.orders
 ALTER TABLE IF EXISTS public.products
     ADD CONSTRAINT products_category_id_fkey FOREIGN KEY (category_id)
     REFERENCES public.categories (category_id) MATCH SIMPLE
+    ON UPDATE NO ACTION
+    ON DELETE NO ACTION;
+
+ALTER TABLE IF EXISTS public.orderitems
+    ADD CONSTRAINT orderitems_order_id_fkey FOREIGN KEY (order_id)
+    REFERENCES public.orders (order_id) MATCH SIMPLE
+    ON UPDATE NO ACTION
+    ON DELETE NO ACTION;
+
+ALTER TABLE IF EXISTS public.orderitems
+    ADD CONSTRAINT orderitems_product_id_fkey FOREIGN KEY (product_id)
+    REFERENCES public.products (product_id) MATCH SIMPLE
     ON UPDATE NO ACTION
     ON DELETE NO ACTION;
 
