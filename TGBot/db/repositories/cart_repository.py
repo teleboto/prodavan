@@ -35,3 +35,28 @@ class CartRepository:
                                 '1',
                                 '{timestamp_without_tz}'
                                  )""")
+    
+  def get_cart_products(self, user_id):
+    query = f"""
+      SELECT 
+        c.cart_id,
+        p.product_id,
+        p.name,
+        p.price,
+        c.quantity
+      FROM cart c
+        INNER JOIN products p
+          ON c.product_id = p.product_id
+      WHERE 
+        c.user_id = {user_id}
+    """
+    return self.db.select(query)
+
+  def clear(self, user_id):
+    query = f"""
+      DELETE 
+      FROM cart
+      WHERE 
+        user_id = {user_id}
+    """
+    return self.db.update_rows(query)
