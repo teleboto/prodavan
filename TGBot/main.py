@@ -16,8 +16,8 @@ def main(message: types.Message):
     markup = types.InlineKeyboardMarkup()
     btn1 = types.InlineKeyboardButton('Акции и специальные предложения', callback_data='special')
     btn2 = types.InlineKeyboardButton('Каталог', callback_data=Action('catg', '').to_json())
-    btn3 = types.InlineKeyboardButton('Корзина', callback_data='baskt')
-    btn4 = types.InlineKeyboardButton('Статус заказа', callback_data='status')
+    btn3 = types.InlineKeyboardButton('Корзина', callback_data=Action('show_cart', '').to_json())
+    btn4 = types.InlineKeyboardButton('Мои заказы', callback_data=Action('list_orders', '').to_json())
     btn5 = types.InlineKeyboardButton('Помощь', callback_data='help')
     markup.row(btn1)
     markup.row(btn2, btn3)
@@ -39,8 +39,6 @@ def info(message):
 
 @bot.callback_query_handler(func=lambda callback: True)
 def callback_message(callback: types.CallbackQuery):
-
-    print(callback.from_user.id)
 
     data = None
     try:
