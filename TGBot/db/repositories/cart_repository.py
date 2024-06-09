@@ -43,10 +43,14 @@ class CartRepository:
         p.product_id,
         p.name,
         p.price,
-        c.quantity
+        c.quantity,
+        s.name as special_name,
+        s.discount
       FROM cart c
         INNER JOIN products p
           ON c.product_id = p.product_id
+        LEFT JOIN special s
+          ON p.special_id = s.special_id
       WHERE 
         c.user_id = {user_id}
     """

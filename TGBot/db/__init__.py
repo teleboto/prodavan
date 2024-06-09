@@ -6,6 +6,7 @@ from .repositories.product_repository import ProductRepository
 from .repositories.user_repository import UserRepository
 from .repositories.cart_repository import CartRepository
 from .repositories.orders_repository import OrderRepository
+from .repositories.special_repository import SpecialRepository
 
 db_client = DBClient(
   config["DB_HOST"],
@@ -20,3 +21,4 @@ productRepository = ProductRepository(db_client)
 userRepository = UserRepository(db_client)
 cartRepository = CartRepository(db_client)
 orderRepository = OrderRepository(db_client)
+specialRepository = SpecialRepository(db_client)
