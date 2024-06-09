@@ -8,7 +8,7 @@ class SpecialRepository:
 
   def fetchActiveSpecial(self):
     return self.db.select(f"""
-        SELECT "special_id", "name", "description" FROM "special"
+        SELECT "special_id", "name", "description", "discount" FROM "special"
         WHERE "special_id" IN (
             SELECT s."special_id" FROM "special" s LEFT JOIN "products" p ON s."special_id" = p."special_id"
             GROUP BY s."special_id"
