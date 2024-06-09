@@ -14,7 +14,7 @@ router.set_bot(bot)
 @bot.message_handler(commands=['start'])
 def main(message: types.Message):
     markup = types.InlineKeyboardMarkup()
-    btn1 = types.InlineKeyboardButton('Акции и специальные предложения', callback_data='special')
+    btn1 = types.InlineKeyboardButton('Акции и специальные предложения', callback_data=Action('list_special', '').to_json())
     btn2 = types.InlineKeyboardButton('Каталог', callback_data=Action('catg', '').to_json())
     btn3 = types.InlineKeyboardButton('Корзина', callback_data=Action('show_cart', '').to_json())
     btn4 = types.InlineKeyboardButton('Мои заказы', callback_data=Action('list_orders', '').to_json())
@@ -24,7 +24,7 @@ def main(message: types.Message):
     markup.row(btn4, btn5)
     file = open('./logo.jpg', 'rb')
     bot.send_photo(message.chat.id, file, reply_markup=markup, caption = f'<b>👋 Привет {message.from_user.first_name}'\
-    '\n 🛍 Добро пожаловать в бот магазина Prodavan</b>\n *описание магазина*', parse_mode='html')
+    '\n 🛍 Добро пожаловать в бот магазина Prodavan</b>\n Спешите купить товары по выгодным ценам!', parse_mode='html')
 
 @bot.message_handler(commands=['help'])
 def main(message):
