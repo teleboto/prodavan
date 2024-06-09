@@ -60,6 +60,18 @@ CREATE TABLE IF NOT EXISTS public.users
     CONSTRAINT users_pkey PRIMARY KEY (user_id)
 );
 
+CREATE TABLE IF NOT EXISTS public.special
+(
+    special_id serial NOT NULL,
+	name character varying(255) COLLATE pg_catalog."default",
+    discount integer,
+    description text COLLATE pg_catalog."default",
+    CONSTRAINT special_pkey PRIMARY KEY (special_id)
+);
+
+ALTER TABLE public.products
+    ADD COLUMN special_id integer NULL;
+
 ALTER TABLE IF EXISTS public.cart
     ADD CONSTRAINT cart_product_id_fkey FOREIGN KEY (product_id)
     REFERENCES public.products (product_id) MATCH SIMPLE
@@ -86,6 +98,12 @@ ALTER TABLE IF EXISTS public.products
     REFERENCES public.categories (category_id) MATCH SIMPLE
     ON UPDATE NO ACTION
     ON DELETE NO ACTION;
+
+ALTER TABLE IF EXISTS public.products
+    ADD CONSTRAINT products_special_id_fkey FOREIGN KEY (special_id)
+    REFERENCES public.special (special_id) MATCH SIMPLE
+    ON UPDATE NO ACTION
+    ON DELETE CASCADE;
 
 ALTER TABLE IF EXISTS public.orderitems
     ADD CONSTRAINT orderitems_order_id_fkey FOREIGN KEY (order_id)
